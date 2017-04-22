@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include "Atm_lights.h"
 
 //
 // Created by VermutMac on 4/23/2017.
@@ -11,8 +12,10 @@ void setup()
 {
 	Serial.begin(115200);
 	modbus_setup();
+	atm_lights.begin();
 }
 
 void loop() {
+	automaton.run();
 	modbus_loop();
 }
