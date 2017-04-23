@@ -23,19 +23,20 @@ void process_actions() {
 	switch (holdingRegs[ACTIONS]) {
 		case 1 : // Put here code for Go_dim
 			Serial.println("[Go_dim] action fired");
-			// gpioWrite(1, LED_BUILTIN);
+			digitalWrite(LED_BUILTIN, LOW);
 			atm_lights.off();
 			break;
 		case 2 : // Put here code for Go_normal
 			Serial.println("[Go_normal] action fired");
-			// gpioWrite(1, LED_BUILTIN);
+			digitalWrite(LED_BUILTIN, HIGH);
 			atm_lights.full();
 			break;
 		case 3 : // Put here code for Go_alarms
 			Serial.println("[Go_alarms] action fired");
-			// gpioWrite(1, LED_BUILTIN);
+			digitalWrite(LED_BUILTIN, HIGH);
 			atm_lights.alarm();
 			break;
+		default:break;
 	}
 
 	// Signal that action was processed
@@ -44,17 +45,12 @@ void process_actions() {
 
 // Just debug functions for easy testing. Won't be used probably
 /* Holds current button state in register */
-void buttonStatus(int reg, int pin) { // LOOP
-	holdingRegs[reg] = digitalRead(pin);
+void buttonStatus(int reg, uint8_t pin) { // LOOP
+	holdingRegs[reg] = digitalRead(pin) ? 1 : 0;
 }
 
-void buttonStatus_setup(int reg, int pin) { // SETUP
+void buttonStatus_setup(int reg, uint8_t pin) { // SETUP
 	pinMode(pin, INPUT_PULLUP);
-}
-
-/* Outputs register value to pin */
-void gpioWrite(int reg, int pin) {
-	digitalWrite(pin, holdingRegs[reg]);
 }
 /////////////////////////////////////////////////////////////////
 
@@ -70,6 +66,7 @@ void modbus_setup() {
 	modbus_configure(57600, 1, SSerialTxControl, TOTAL_REGS_SIZE);
 	holdingRegs[ACTIONS] = 0;
 	// Sample calls
+	pinMode(LED_BUILTIN, OUTPUT);
 	// buttonStatus_setup(, <buttonPin>);
 }
 
@@ -84,4 +81,3 @@ void modbus_loop() {
 	// Sample calls
 	// buttonStatus(, <buttonPin>);
 }
-
