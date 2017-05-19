@@ -4,7 +4,7 @@
 //////////////// registers of LIGHTS ///////////////////
 enum {
 	// The first register starts at address 0
-			ACTIONS,      // Always present, used for incoming actions
+	ACTIONS,      // Always present, used for incoming actions
 
 	// Any registered events, denoted by 'triggered_by_register' in rs485_node of Lua script, 1 and up
 

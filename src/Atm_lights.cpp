@@ -1,15 +1,13 @@
 #include "Atm_lights.h"
-
-/* Add optional parameters for the state machine to begin()
- * Add extra initialization code
- */
 Atm_lights atm_lights;
 
-#include "RGBdriver.h"
+#define LED_CIN 5 //pins definitions for the driver
+#define LED_DIN 6
+#define LED_VCC 7
+#define LED_GND 8
 
-#define CLK 4 //pins definitions for the driver
-#define DIO 5
-RGBdriver Driver(CLK, DIO);
+#include "RGBdriver.h"
+RGBdriver Driver(LED_CIN, LED_DIN);
 
 Atm_lights &Atm_lights::begin() {
 	// clang-format off
@@ -22,6 +20,10 @@ Atm_lights &Atm_lights::begin() {
 			/*       FULL */       ENT_FULL,      -1,      -1,     OFF,     DIM,     ALARM,  FLICKERING,       -1,   -1,
 	};  // clang-format on
 	Machine::begin(state_table, ELSE);
+
+	pinMode(LED_VCC, OUTPUT);
+	digitalWrite(LED_VCC, HIGH);
+	pinMode(LED_GND, INPUT);
 
 	trace(Serial);
 	return *this;
