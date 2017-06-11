@@ -23,7 +23,8 @@ Atm_lights &Atm_lights::begin() {
 
 	pinMode(LED_VCC, OUTPUT);
 	digitalWrite(LED_VCC, HIGH);
-	pinMode(LED_GND, INPUT);
+	pinMode(LED_GND, OUTPUT);
+	digitalWrite(LED_GND, LOW);
 
 	trace(Serial);
 	return *this;
@@ -66,6 +67,10 @@ void Atm_lights::action(int id) {
 		case ENT_FLICKERING:
 			return;
 		case ENT_FULL:
+			Driver.begin(); // begin
+			Driver.SetColor(255, 255, 255);
+			Driver.SetColor(255, 255, 255);
+			Driver.end();
 			return;
 	}
 }
