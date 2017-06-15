@@ -36,6 +36,10 @@ void process_actions() {
 			digitalWrite(LED_BUILTIN, HIGH);
 			atm_lights.alarm();
 			break;
+		case 4 : // Put here code for Go_off
+			Serial.println("[Go_off] action fired");
+			atm_lights.off();
+			break;
 		default:break;
 	}
 
