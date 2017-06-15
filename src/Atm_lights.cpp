@@ -1,10 +1,10 @@
 #include "Atm_lights.h"
 Atm_lights atm_lights;
 
-#define LED_CIN 5 //pins definitions for the driver
-#define LED_DIN 6
-#define LED_VCC 7
-#define LED_GND 8
+#define LED_CIN 2 //pins definitions for the driver
+#define LED_DIN 3
+#define LED_VCC 4
+#define LED_GND 5
 
 #include "RGBdriver.h"
 RGBdriver Driver(LED_CIN, LED_DIN);
