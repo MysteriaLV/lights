@@ -12,13 +12,15 @@ RGBdriver Driver(LED_CIN, LED_DIN);
 Atm_lights &Atm_lights::begin() {
 	// clang-format off
 	const static state_t state_table[] PROGMEM = {
-			/*                     ON_ENTER  ON_LOOP  ON_EXIT  EVT_OFF  EVT_DIM  EVT_ALARM  EVT_FLICKER  EVT_FULL  ELSE */
-			/*        OFF */        ENT_OFF,      -1,      -1,      -1,     DIM,     ALARM,  FLICKERING,     FULL,   -1,
-			/*        DIM */        ENT_DIM,      -1,      -1,     OFF,      -1,     ALARM,  FLICKERING,     FULL,   -1,
-			/*      ALARM */      ENT_ALARM,      -1,      -1,     OFF,     DIM,        -1,  FLICKERING,     FULL,   -1,
-			/* FLICKERING */ ENT_FLICKERING,      -1,      -1,     OFF,     DIM,     ALARM,          -1,     FULL,   -1,
-			/*       FULL */       ENT_FULL,      -1,      -1,     OFF,     DIM,     ALARM,  FLICKERING,       -1,   -1,
-	};  // clang-format on
+    /*                     ON_ENTER  ON_LOOP  ON_EXIT  EVT_OFF  EVT_DIM  EVT_ALARM  EVT_FLICKER  EVT_NORMAL  EVT_MAINTENACE  ELSE */
+    /*        OFF */        ENT_OFF,      -1,      -1,      -1,     DIM,     ALARM,  FLICKERING,     NORMAL,     MAINTENACE,   -1,
+    /*        DIM */        ENT_DIM,      -1,      -1,     OFF,      -1,     ALARM,  FLICKERING,     NORMAL,     MAINTENACE,   -1,
+    /*      ALARM */      ENT_ALARM,      -1,      -1,     OFF,     DIM,        -1,  FLICKERING,     NORMAL,     MAINTENACE,   -1,
+    /* FLICKERING */ ENT_FLICKERING,      -1,      -1,     OFF,     DIM,     ALARM,          -1,     NORMAL,     MAINTENACE,   -1,
+    /*     NORMAL */     ENT_NORMAL,      -1,      -1,     OFF,     DIM,     ALARM,  FLICKERING,         -1,     MAINTENACE,   -1,
+    /* MAINTENACE */ ENT_MAINTENACE,      -1,      -1,     OFF,     DIM,     ALARM,  FLICKERING,     NORMAL,             -1,   -1,
+  };
+  // clang-format on
 	Machine::begin(state_table, ELSE);
 
 	pinMode(LED_VCC, OUTPUT);
@@ -35,8 +37,6 @@ Atm_lights &Atm_lights::begin() {
  */
 
 int Atm_lights::event(int id) {
-	switch (id) {
-	}
 	return 0;
 }
 
@@ -50,10 +50,20 @@ void Atm_lights::action(int id) {
 			Driver.begin(); // begin
 			Driver.SetColor(0, 0, 0);
 			Driver.SetColor(0, 0, 0);
+			Driver.SetColor(0, 0, 0);
+			Driver.SetColor(0, 0, 0);
+			Driver.SetColor(0, 0, 0);
+			Driver.SetColor(0, 0, 0);
+			Driver.SetColor(0, 0, 0);
 			Driver.end();
 			return;
 		case ENT_DIM:
 			Driver.begin(); // begin
+			Driver.SetColor(20, 20, 20);
+			Driver.SetColor(20, 20, 20);
+			Driver.SetColor(20, 20, 20);
+			Driver.SetColor(20, 20, 20);
+			Driver.SetColor(20, 20, 20);
 			Driver.SetColor(20, 20, 20);
 			Driver.SetColor(20, 20, 20);
 			Driver.end();
@@ -66,8 +76,24 @@ void Atm_lights::action(int id) {
 			return;
 		case ENT_FLICKERING:
 			return;
-		case ENT_FULL:
-			Driver.begin(); // begin
+	    case ENT_NORMAL:
+		    Driver.begin(); // begin
+			Driver.SetColor(9, 255, 255);
+			Driver.SetColor(9, 255, 255);
+			Driver.SetColor(9, 255, 255);
+			Driver.SetColor(9, 255, 255);
+			Driver.SetColor(9, 255, 255);
+			Driver.SetColor(9, 255, 255);
+			Driver.SetColor(9, 255, 255);
+			Driver.end();
+	        return;
+	    case ENT_MAINTENACE:
+		    Driver.begin(); // begin
+			Driver.SetColor(255, 255, 255);
+			Driver.SetColor(255, 255, 255);
+			Driver.SetColor(255, 255, 255);
+			Driver.SetColor(255, 255, 255);
+			Driver.SetColor(255, 255, 255);
 			Driver.SetColor(255, 255, 255);
 			Driver.SetColor(255, 255, 255);
 			Driver.end();
@@ -120,8 +146,13 @@ Atm_lights &Atm_lights::flicker() {
 	return *this;
 }
 
-Atm_lights &Atm_lights::full() {
-	trigger(EVT_FULL);
+Atm_lights& Atm_lights::normal() {
+  trigger( EVT_NORMAL );
+  return *this;
+}
+
+Atm_lights& Atm_lights::maintenace() {
+  trigger( EVT_MAINTENACE );
 	return *this;
 }
 
@@ -131,7 +162,7 @@ Atm_lights &Atm_lights::full() {
 
 Atm_lights &Atm_lights::trace(Stream &stream) {
 	Machine::setTrace(&stream, atm_serial_debug::trace,
-	                  "LIGHTS\0EVT_OFF\0EVT_DIM\0EVT_ALARM\0EVT_FLICKER\0EVT_FULL\0ELSE\0OFF\0DIM\0ALARM\0FLICKERING\0FULL");
+    "LIGHTS\0EVT_OFF\0EVT_DIM\0EVT_ALARM\0EVT_FLICKER\0EVT_NORMAL\0EVT_MAINTENACE\0ELSE\0OFF\0DIM\0ALARM\0FLICKERING\0NORMAL\0MAINTENACE" );
 	return *this;
 }
 
