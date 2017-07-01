@@ -1,12 +1,9 @@
 #include <Arduino.h>
 #include "Atm_lights.h"
 
-//
-// Created by VermutMac on 4/23/2017.
-//
 extern void modbus_setup();
 extern void modbus_loop();
-extern unsigned int holdingRegs[];
+extern void modbus_set(word event, word value);
 
 void setup()
 {

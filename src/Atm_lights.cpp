@@ -59,13 +59,13 @@ void Atm_lights::action(int id) {
 			return;
 		case ENT_DIM:
 			Driver.begin(); // begin
-			Driver.SetColor(20, 20, 20);
-			Driver.SetColor(20, 20, 20);
-			Driver.SetColor(20, 20, 20);
-			Driver.SetColor(20, 20, 20);
-			Driver.SetColor(20, 20, 20);
-			Driver.SetColor(20, 20, 20);
-			Driver.SetColor(20, 20, 20);
+			Driver.SetColor(127, 0, 0);
+			Driver.SetColor(127, 0, 0);
+			Driver.SetColor(127, 0, 0);
+			Driver.SetColor(127, 0, 0);
+			Driver.SetColor(127, 0, 0);
+			Driver.SetColor(127, 0, 0);
+			Driver.SetColor(127, 0, 0);
 			Driver.end();
 			return;
 		case ENT_ALARM:
