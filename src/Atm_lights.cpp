@@ -12,13 +12,14 @@ RGBdriver Driver(LED_CIN, LED_DIN);
 Atm_lights &Atm_lights::begin() {
 	// clang-format off
 	const static state_t state_table[] PROGMEM = {
-    /*                     ON_ENTER  ON_LOOP  ON_EXIT  EVT_OFF  EVT_DIM  EVT_ALARM  EVT_FLICKER  EVT_NORMAL  EVT_MAINTENACE  ELSE */
-    /*        OFF */        ENT_OFF,      -1,      -1,      -1,     DIM,     ALARM,  FLICKERING,     NORMAL,     MAINTENACE,   -1,
-    /*        DIM */        ENT_DIM,      -1,      -1,     OFF,      -1,     ALARM,  FLICKERING,     NORMAL,     MAINTENACE,   -1,
-    /*      ALARM */      ENT_ALARM,      -1,      -1,     OFF,     DIM,        -1,  FLICKERING,     NORMAL,     MAINTENACE,   -1,
-    /* FLICKERING */ ENT_FLICKERING,      -1,      -1,     OFF,     DIM,     ALARM,          -1,     NORMAL,     MAINTENACE,   -1,
-    /*     NORMAL */     ENT_NORMAL,      -1,      -1,     OFF,     DIM,     ALARM,  FLICKERING,         -1,     MAINTENACE,   -1,
-    /* MAINTENACE */ ENT_MAINTENACE,      -1,      -1,     OFF,     DIM,     ALARM,  FLICKERING,     NORMAL,             -1,   -1,
+    /*                              ON_ENTER  ON_LOOP  ON_EXIT  EVT_OFF  EVT_DIM  EVT_POWER_CONSOLE_CONNECTED  EVT_ALARM  EVT_FLICKER  EVT_NORMAL  EVT_MAINTENACE  ELSE */
+    /*            OFF */             ENT_OFF,      -1,      -1,      -1,     DIM,              DIM_WITH_TABLE,     ALARM,  FLICKERING,     NORMAL,     MAINTENACE,   -1,
+    /*            DIM */             ENT_DIM,      -1,      -1,     OFF,      -1,              DIM_WITH_TABLE,     ALARM,  FLICKERING,     NORMAL,     MAINTENACE,   -1,
+    /* DIM_WITH_TABLE */  ENT_DIM_WITH_TABLE,      -1,      -1,     OFF,     DIM,                          -1,     ALARM,  FLICKERING,     NORMAL,     MAINTENACE,   -1,
+    /*          ALARM */           ENT_ALARM,      -1,      -1,     OFF,     DIM,                          -1,        -1,  FLICKERING,     NORMAL,     MAINTENACE,   -1,
+    /*     FLICKERING */      ENT_FLICKERING,      -1,      -1,     OFF,     DIM,                          -1,     ALARM,          -1,     NORMAL,     MAINTENACE,   -1,
+    /*         NORMAL */          ENT_NORMAL,      -1,      -1,     OFF,     DIM,                          -1,     ALARM,  FLICKERING,         -1,     MAINTENACE,   -1,
+    /*     MAINTENACE */      ENT_MAINTENACE,      -1,      -1,     OFF,     DIM,                          -1,     ALARM,  FLICKERING,     NORMAL,             -1,   -1,
   };
   // clang-format on
 	Machine::begin(state_table, ELSE);
@@ -37,6 +38,8 @@ Atm_lights &Atm_lights::begin() {
  */
 
 int Atm_lights::event(int id) {
+  switch ( id ) {
+  }
 	return 0;
 }
 
@@ -61,6 +64,17 @@ void Atm_lights::action(int id) {
 			Driver.begin(); // begin
 			Driver.SetColor(127, 0, 0);
 			Driver.SetColor(127, 0, 0);
+			Driver.SetColor(127, 0, 0);
+			Driver.SetColor(127, 0, 0);
+			Driver.SetColor(127, 0, 0);
+			Driver.SetColor(127, 0, 0);
+			Driver.SetColor(127, 0, 0);
+			Driver.end();
+			return;
+		case ENT_DIM_WITH_TABLE:
+			Driver.begin(); // begin
+			Driver.SetColor(127, 0, 0);
+			Driver.SetColor(255, 255, 255);
 			Driver.SetColor(127, 0, 0);
 			Driver.SetColor(127, 0, 0);
 			Driver.SetColor(127, 0, 0);
@@ -136,6 +150,11 @@ Atm_lights &Atm_lights::dim() {
 	return *this;
 }
 
+Atm_lights& Atm_lights::power_console_connected() {
+  trigger( EVT_POWER_CONSOLE_CONNECTED );
+  return *this;
+}
+
 Atm_lights &Atm_lights::alarm() {
 	trigger(EVT_ALARM);
 	return *this;
@@ -162,7 +181,7 @@ Atm_lights& Atm_lights::maintenace() {
 
 Atm_lights &Atm_lights::trace(Stream &stream) {
 	Machine::setTrace(&stream, atm_serial_debug::trace,
-    "LIGHTS\0EVT_OFF\0EVT_DIM\0EVT_ALARM\0EVT_FLICKER\0EVT_NORMAL\0EVT_MAINTENACE\0ELSE\0OFF\0DIM\0ALARM\0FLICKERING\0NORMAL\0MAINTENACE" );
+    "LIGHTS\0EVT_OFF\0EVT_DIM\0EVT_POWER_CONSOLE_CONNECTED\0EVT_ALARM\0EVT_FLICKER\0EVT_NORMAL\0EVT_MAINTENACE\0ELSE\0OFF\0DIM\0DIM_WITH_TABLE\0ALARM\0FLICKERING\0NORMAL\0MAINTENACE" );
 	return *this;
 }
 

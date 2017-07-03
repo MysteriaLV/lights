@@ -1,13 +1,11 @@
 #include "Atm_lights.h"
 
-#define USE_HOLDING_REGISTERS_ONLY
-
 #include <Modbus.h>
 
 //////////////// registers of LIGHTS ///////////////////
 enum {
 	// The first register starts at address 0
-	ACTIONS,      // Always present, used for incoming actions
+			ACTIONS,      // Always present, used for incoming actions
 
 	// Any registered events, denoted by 'triggered_by_register' in rs485_node of Lua script, 1 and up
 
@@ -18,6 +16,10 @@ enum {
 #include <ModbusSerial.h>
 ModbusSerial mb;
 
+#define SSerialGND       10
+#define SSerialRX        9  //Serial Receive pin
+#define SSerialTX        8  //Serial Transmit pin
+#define SSerialVCC       7
 #define SSerialTxControl 6   //RS485 Direction control
 #define SSerialRX        8  //Serial Receive pin
 #define SSerialTX        9  //Serial Transmit pin
@@ -33,7 +35,7 @@ ModbusSerial mb;
 #define SSerialTxControl 6   //RS485 Direction control
 #define SSerialRX        8  //Serial Receive pin
 #define SSerialTX        9  //Serial Transmit pin
-AltSoftSerial RS485Serial(SSerialRX, SSerialTX); // RX, TX
+AltSoftSerial RS485Serial(111, 222); // RX, TX hardcoded
 #endif
 
 #ifdef USE_SERIAL1
@@ -84,6 +86,11 @@ void process_actions() {
 			digitalWrite(LED_BUILTIN, LOW);
 			atm_lights.maintenace();
 			break;
+		case 6 : // Put here code for Power_console_connected
+			Serial.println("[Power_console_connected] action fired");
+			digitalWrite(LED_BUILTIN, LOW);
+			atm_lights.power_console_connected();
+			break;
 		default:
 			break;
 	}
@@ -98,6 +105,14 @@ void modbus_set(word event, word value) {
 
 void modbus_setup() {
 	Serial.println("ModBus Slave LIGHTS:1 for lua/Aliens.lua");
+
+#ifdef EMULATE_RS3485_POWER_PINS
+	pinMode(SSerialVCC, OUTPUT);
+	digitalWrite(SSerialVCC, HIGH);
+	pinMode(SSerialGND, OUTPUT);
+	digitalWrite(SSerialGND, LOW);
+	delay(10);
+#endif
 
 #ifndef USE_ESP8266_TCP
 	mb.config(&RS485Serial, 57600, SSerialTxControl);
