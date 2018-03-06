@@ -5,6 +5,11 @@ extern void modbus_setup();
 extern void modbus_loop();
 extern void modbus_set(word event, word value);
 
+/*
+ * http://www.analog.com/media/en/technical-documentation/data-sheets/ADuM1200_1201.pdf
+ * http://www.aimtec.com/site/Aimtec/files/Datasheet/HighResolution/AM1S-Z.pdf
+ */
+
 #ifdef MY_TEST_MODE
 	#include <RGBdriver.h>
 	Atm_timer test_mode_timer1;
