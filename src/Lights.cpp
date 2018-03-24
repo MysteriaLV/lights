@@ -34,6 +34,10 @@ void setup() {
 						Driver.SetColor(255, 0, 0);
 						Driver.SetColor(255, 0, 0);
 						Driver.SetColor(255, 0, 0);
+
+						Driver.SetColor(255, 0, 0);
+						Driver.SetColor(255, 0, 0);
+						Driver.SetColor(255, 0, 0);
 						Driver.SetColor(255, 0, 0);
 						Driver.SetColor(255, 0, 0);
 						Driver.end();
@@ -46,6 +50,10 @@ void setup() {
 						Driver.SetColor(0, 255, 0);
 						Driver.SetColor(0, 255, 0);
 						Driver.SetColor(0, 255, 0);
+
+						Driver.SetColor(0, 255, 0);
+						Driver.SetColor(0, 255, 0);
+						Driver.SetColor(0, 255, 0);
 						Driver.SetColor(0, 255, 0);
 						Driver.SetColor(0, 255, 0);
 						Driver.end();
@@ -55,6 +63,10 @@ void setup() {
 						Driver.begin();
 						Driver.SetColor(0, 0, 255);
 						Driver.SetColor(0, 0, 255);
+						Driver.SetColor(0, 0, 255);
+						Driver.SetColor(0, 0, 255);
+						Driver.SetColor(0, 0, 255);
+
 						Driver.SetColor(0, 0, 255);
 						Driver.SetColor(0, 0, 255);
 						Driver.SetColor(0, 0, 255);
