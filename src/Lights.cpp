@@ -5,6 +5,8 @@ extern void modbus_setup();
 extern void modbus_loop();
 extern void modbus_set(word event, word value);
 
+Atm_led exit_door, rtg_monitor;
+
 /*
  * http://www.analog.com/media/en/technical-documentation/data-sheets/ADuM1200_1201.pdf
  * http://www.aimtec.com/site/Aimtec/files/Datasheet/HighResolution/AM1S-Z.pdf
@@ -21,6 +23,9 @@ void setup() {
 	Serial.begin(115200);
 	modbus_setup();
 	atm_lights.begin();
+
+	rtg_monitor.begin(3).off();
+	exit_door.begin(4).off();
 
 #ifdef MY_TEST_MODE
 	test_mode_timer1.begin(1000, 999)

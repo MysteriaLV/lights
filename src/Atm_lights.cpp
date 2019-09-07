@@ -1,4 +1,5 @@
 #include "Atm_lights.h"
+
 Atm_lights atm_lights;
 
 #define LED_CIN PIN2 //pins definitions for the driver
@@ -6,7 +7,24 @@ Atm_lights atm_lights;
 #define LED_VCC PIN4
 #define LED_GND PIN5
 
+/* LEDS Connected
+ *
+ * 1 LED Foor Room2
+ * 2 LED Foor Room1
+ * 3 LED TopLight Room1
+ * 4 Stol-Shema
+ * 5 Bolshie Kolbi (Nad zhuzhimi)
+ * 6 Perimeter Led1
+ * 7 Perimeter Led2
+ * 8 LED TopLight Room2
+ * 9 Maneken
+ * */
+
+
+#define RGB(r, g, b) Driver.SetColor(b, g, r)
+
 #include "RGBdriver.h"
+
 RGBdriver Driver(LED_CIN, LED_DIN);
 
 Atm_lights &Atm_lights::begin() {
@@ -20,17 +38,17 @@ Atm_lights &Atm_lights::begin() {
     /*     FLICKERING */      ENT_FLICKERING,      -1,      -1,     OFF,     DIM,                          -1,     ALARM,          -1,     NORMAL,     MAINTENACE,   -1,
     /*         NORMAL */          ENT_NORMAL,      -1,      -1,     OFF,     DIM,                          -1,     ALARM,  FLICKERING,         -1,     MAINTENACE,   -1,
     /*     MAINTENACE */      ENT_MAINTENACE,      -1,      -1,     OFF,     DIM,                          -1,     ALARM,  FLICKERING,     NORMAL,             -1,   -1,
-  };
-  // clang-format on
+    };
+    // clang-format on
 	Machine::begin(state_table, ELSE);
 
-	pinMode(LED_VCC, OUTPUT);
-	digitalWrite(LED_VCC, HIGH);
-	pinMode(LED_GND, OUTPUT);
-	digitalWrite(LED_GND, LOW);
+    pinMode(LED_VCC, OUTPUT);
+    digitalWrite(LED_VCC, HIGH);
+    pinMode(LED_GND, OUTPUT);
+    digitalWrite(LED_GND, LOW);
 
-	trace(Serial);
-	return *this;
+    trace(Serial);
+    return *this;
 }
 
 /* Add C++ code for each internally handled event (input) 
@@ -38,9 +56,9 @@ Atm_lights &Atm_lights::begin() {
  */
 
 int Atm_lights::event(int id) {
-  switch ( id ) {
-  }
-	return 0;
+    switch (id) {
+    }
+    return 0;
 }
 
 /* Add C++ code for each action
@@ -48,71 +66,81 @@ int Atm_lights::event(int id) {
  */
 
 void Atm_lights::action(int id) {
-	switch (id) {
-		case ENT_OFF:
-			Driver.begin(); // begin
-			Driver.SetColor(0, 0, 0);
-			Driver.SetColor(0, 0, 0);
-			Driver.SetColor(0, 0, 0);
-			Driver.SetColor(0, 0, 0);
-			Driver.SetColor(0, 0, 0);
-			Driver.SetColor(0, 0, 0);
-			Driver.SetColor(0, 0, 0);
-			Driver.end();
-			return;
-		case ENT_DIM:
-			Driver.begin(); // begin
-			Driver.SetColor(127, 0, 0);
-			Driver.SetColor(127, 0, 0);
-			Driver.SetColor(127, 0, 0);
-			Driver.SetColor(127, 0, 0);
-			Driver.SetColor(127, 0, 0);
-			Driver.SetColor(127, 0, 0);
-			Driver.SetColor(127, 0, 0);
-			Driver.end();
-			return;
-		case ENT_DIM_WITH_TABLE:
-			Driver.begin(); // begin
-			Driver.SetColor(127, 0, 0);
-			Driver.SetColor(255, 255, 255);
-			Driver.SetColor(127, 0, 0);
-			Driver.SetColor(127, 0, 0);
-			Driver.SetColor(127, 0, 0);
-			Driver.SetColor(127, 0, 0);
-			Driver.SetColor(127, 0, 0);
-			Driver.end();
-			return;
-		case ENT_ALARM:
-			Driver.begin(); // begin
-			Driver.SetColor(100, 00, 10);
-			Driver.SetColor(100, 00, 10);
-			Driver.end();
-			return;
-		case ENT_FLICKERING:
-			return;
-	    case ENT_NORMAL:
-		    Driver.begin(); // begin
-			Driver.SetColor(9, 255, 255);
-			Driver.SetColor(9, 255, 255);
-			Driver.SetColor(9, 255, 255);
-			Driver.SetColor(9, 255, 255);
-			Driver.SetColor(9, 255, 255);
-			Driver.SetColor(9, 255, 255);
-			Driver.SetColor(9, 255, 255);
-			Driver.end();
-	        return;
-	    case ENT_MAINTENACE:
-		    Driver.begin(); // begin
-			Driver.SetColor(255, 255, 255);
-			Driver.SetColor(255, 255, 255);
-			Driver.SetColor(255, 255, 255);
-			Driver.SetColor(255, 255, 255);
-			Driver.SetColor(255, 255, 255);
-			Driver.SetColor(255, 255, 255);
-			Driver.SetColor(255, 255, 255);
-			Driver.end();
-			return;
-	}
+    switch (id) {
+        case ENT_OFF:
+            Driver.begin(); // begin
+
+            RGB(0, 0, 0);
+            RGB(0, 0, 0);
+            RGB(0, 0, 0);
+            RGB(0, 0, 0);
+            RGB(0, 0, 0);
+            RGB(0, 0, 0);
+            RGB(0, 0, 0);
+            RGB(0, 0, 0);
+            RGB(0, 0, 0);
+
+            Driver.end();
+            return;
+        case ENT_DIM:
+            // 245, 152, 66 - Orange
+            Driver.begin(); // begin
+            Driver.SetColor(255, 255, 255);
+            Driver.SetColor(255, 255, 255);
+            Driver.SetColor(245, 152, 66);
+            Driver.SetColor(0, 0, 0);
+            Driver.SetColor(245, 152, 66);
+            Driver.SetColor(0, 0, 0);
+            Driver.SetColor(0, 0, 0);
+            Driver.SetColor(245, 152, 66);
+            Driver.SetColor(245, 152, 66);
+            Driver.end();
+            return;
+        case ENT_DIM_WITH_TABLE:
+            Driver.begin(); // begin
+            Driver.SetColor(255, 255, 255);
+            Driver.SetColor(255, 255, 255);
+            Driver.SetColor(245, 152, 66);
+            Driver.SetColor(255, 255, 255);
+            Driver.SetColor(245, 152, 66);
+            Driver.SetColor(0, 0, 0);
+            Driver.SetColor(0, 0, 0);
+            Driver.SetColor(245, 152, 66);
+            Driver.SetColor(245, 152, 66);
+            Driver.end();
+            Driver.end();
+            return;
+        case ENT_ALARM:
+            Driver.begin(); // begin
+            Driver.SetColor(100, 00, 10);
+            Driver.SetColor(100, 00, 10);
+            Driver.end();
+            return;
+        case ENT_FLICKERING:
+            return;
+        case ENT_NORMAL:
+            Driver.begin(); // begin
+            Driver.SetColor(9, 255, 255);
+            Driver.SetColor(9, 255, 255);
+            Driver.SetColor(9, 255, 255);
+            Driver.SetColor(9, 255, 255);
+            Driver.SetColor(9, 255, 255);
+            Driver.SetColor(9, 255, 255);
+            Driver.SetColor(9, 255, 255);
+            Driver.end();
+            return;
+        case ENT_MAINTENACE:
+            Driver.begin(); // begin
+            Driver.SetColor(255, 255, 255);
+            Driver.SetColor(255, 255, 255);
+            Driver.SetColor(255, 255, 255);
+            Driver.SetColor(255, 255, 255);
+            Driver.SetColor(255, 255, 255);
+            Driver.SetColor(255, 255, 255);
+            Driver.SetColor(255, 255, 255);
+            Driver.end();
+            return;
+    }
 }
 
 /* Optionally override the default trigger() method
@@ -120,8 +148,8 @@ void Atm_lights::action(int id) {
  */
 
 Atm_lights &Atm_lights::trigger(int event) {
-	Machine::trigger(event);
-	return *this;
+    Machine::trigger(event);
+    return *this;
 }
 
 /* Optionally override the default state() method
@@ -129,7 +157,7 @@ Atm_lights &Atm_lights::trigger(int event) {
  */
 
 int Atm_lights::state(void) {
-	return Machine::state();
+    return Machine::state();
 }
 
 /* Nothing customizable below this line                          
@@ -141,38 +169,38 @@ int Atm_lights::state(void) {
  */
 
 Atm_lights &Atm_lights::off() {
-	trigger(EVT_OFF);
-	return *this;
+    trigger(EVT_OFF);
+    return *this;
 }
 
 Atm_lights &Atm_lights::dim() {
-	trigger(EVT_DIM);
-	return *this;
+    trigger(EVT_DIM);
+    return *this;
 }
 
-Atm_lights& Atm_lights::power_console_connected() {
-  trigger( EVT_POWER_CONSOLE_CONNECTED );
-  return *this;
+Atm_lights &Atm_lights::power_console_connected() {
+    trigger(EVT_POWER_CONSOLE_CONNECTED);
+    return *this;
 }
 
 Atm_lights &Atm_lights::alarm() {
-	trigger(EVT_ALARM);
-	return *this;
+    trigger(EVT_ALARM);
+    return *this;
 }
 
 Atm_lights &Atm_lights::flicker() {
-	trigger(EVT_FLICKER);
-	return *this;
+    trigger(EVT_FLICKER);
+    return *this;
 }
 
-Atm_lights& Atm_lights::normal() {
-  trigger( EVT_NORMAL );
-  return *this;
+Atm_lights &Atm_lights::normal() {
+    trigger(EVT_NORMAL);
+    return *this;
 }
 
-Atm_lights& Atm_lights::maintenace() {
-  trigger( EVT_MAINTENACE );
-	return *this;
+Atm_lights &Atm_lights::maintenace() {
+    trigger(EVT_MAINTENACE);
+    return *this;
 }
 
 /* State trace method
@@ -180,9 +208,9 @@ Atm_lights& Atm_lights::maintenace() {
  */
 
 Atm_lights &Atm_lights::trace(Stream &stream) {
-	Machine::setTrace(&stream, atm_serial_debug::trace,
-    "LIGHTS\0EVT_OFF\0EVT_DIM\0EVT_POWER_CONSOLE_CONNECTED\0EVT_ALARM\0EVT_FLICKER\0EVT_NORMAL\0EVT_MAINTENACE\0ELSE\0OFF\0DIM\0DIM_WITH_TABLE\0ALARM\0FLICKERING\0NORMAL\0MAINTENACE" );
-	return *this;
+    Machine::setTrace(&stream, atm_serial_debug::trace,
+                      "LIGHTS\0EVT_OFF\0EVT_DIM\0EVT_POWER_CONSOLE_CONNECTED\0EVT_ALARM\0EVT_FLICKER\0EVT_NORMAL\0EVT_MAINTENACE\0ELSE\0OFF\0DIM\0DIM_WITH_TABLE\0ALARM\0FLICKERING\0NORMAL\0MAINTENACE");
+    return *this;
 }
 
 
