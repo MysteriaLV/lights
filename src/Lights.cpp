@@ -35,53 +35,54 @@ void setup() {
 
     test_mode_timer1.begin(1000, 999)
             .onTimer([](int idx, int v, int up) {
+                byte icolor = 120;
                 switch (v % 3) {
                     case 0:
                         Serial.println("RED");
                         Driver.begin();
-                        Driver.SetColor(255, 0, 0);
-                        Driver.SetColor(255, 0, 0);
-                        Driver.SetColor(255, 0, 0);
-                        Driver.SetColor(255, 0, 0);
-                        Driver.SetColor(255, 0, 0);
+                        Driver.SetColor(icolor, 0, 0);
+                        Driver.SetColor(icolor, 0, 0);
+                        Driver.SetColor(icolor, 0, 0);
+                        Driver.SetColor(icolor, 0, 0);
+                        Driver.SetColor(icolor, 0, 0);
 
-                        Driver.SetColor(255, 0, 0);
-                        Driver.SetColor(255, 0, 0);
-                        Driver.SetColor(255, 0, 0);
-                        Driver.SetColor(255, 0, 0);
-                        Driver.SetColor(255, 0, 0);
+                        Driver.SetColor(icolor, 0, 0);
+                        Driver.SetColor(icolor, 0, 0);
+                        Driver.SetColor(icolor, 0, 0);
+                        Driver.SetColor(icolor, 0, 0);
+                        Driver.SetColor(icolor, 0, 0);
                         Driver.end();
                         break;
                     case 1:
                         Serial.println("GREEN");
                         Driver.begin();
-                        Driver.SetColor(0, 255, 0);
-                        Driver.SetColor(0, 255, 0);
-                        Driver.SetColor(0, 255, 0);
-                        Driver.SetColor(0, 255, 0);
-                        Driver.SetColor(0, 255, 0);
+                        Driver.SetColor(0, icolor, 0);
+                        Driver.SetColor(0, icolor, 0);
+                        Driver.SetColor(0, icolor, 0);
+                        Driver.SetColor(0, icolor, 0);
+                        Driver.SetColor(0, icolor, 0);
 
-                        Driver.SetColor(0, 255, 0);
-                        Driver.SetColor(0, 255, 0);
-                        Driver.SetColor(0, 255, 0);
-                        Driver.SetColor(0, 255, 0);
-                        Driver.SetColor(0, 255, 0);
+                        Driver.SetColor(0, icolor, 0);
+                        Driver.SetColor(0, icolor, 0);
+                        Driver.SetColor(0, icolor, 0);
+                        Driver.SetColor(0, icolor, 0);
+                        Driver.SetColor(0, icolor, 0);
                         Driver.end();
                         break;
                     case 2:
                         Serial.println("BLUE");
                         Driver.begin();
-                        Driver.SetColor(0, 0, 255);
-                        Driver.SetColor(0, 0, 255);
-                        Driver.SetColor(0, 0, 255);
-                        Driver.SetColor(0, 0, 255);
-                        Driver.SetColor(0, 0, 255);
+                        Driver.SetColor(0, 0, icolor);
+                        Driver.SetColor(0, 0, icolor);
+                        Driver.SetColor(0, 0, icolor);
+                        Driver.SetColor(0, 0, icolor);
+                        Driver.SetColor(0, 0, icolor);
 
-                        Driver.SetColor(0, 0, 255);
-                        Driver.SetColor(0, 0, 255);
-                        Driver.SetColor(0, 0, 255);
-                        Driver.SetColor(0, 0, 255);
-                        Driver.SetColor(0, 0, 255);
+                        Driver.SetColor(0, 0, icolor);
+                        Driver.SetColor(0, 0, icolor);
+                        Driver.SetColor(0, 0, icolor);
+                        Driver.SetColor(0, 0, icolor);
+                        Driver.SetColor(0, 0, icolor);
                         Driver.end();
                         break;
                     default:
