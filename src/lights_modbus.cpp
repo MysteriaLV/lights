@@ -16,8 +16,8 @@ enum {
 ModbusSerial mb;
 
 #define SSerialGND       10
-#define SSerialRX        8  //Serial Receive pin (REVERSED TO MATCH ALT_SOFT_SERIAL)
-#define SSerialTX        9  //Serial Transmit pin (REVERSED TO MATCH ALT_SOFT_SERIAL)
+#define SSerialRX        9  //Serial Receive pin
+#define SSerialTX        8  //Serial Transmit pin
 #define SSerialVCC       7
 #define SSerialTxControl 6   //RS485 Direction control
 SoftwareSerial RS485Serial(SSerialRX, SSerialTX); // RX, TX
@@ -28,7 +28,6 @@ SoftwareSerial RS485Serial(SSerialRX, SSerialTX); // RX, TX
 #include <ModbusSerial.h>
 
 ModbusSerial mb;
-
 #define SSerialTxControl 6   //RS485 Direction control
 #define SSerialRX        8  //Serial Receive pin
 #define SSerialTX        9  //Serial Transmit pin
