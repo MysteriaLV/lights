@@ -1,103 +1,85 @@
 #include <Arduino.h>
 #include "Atm_lights.h"
 
-extern void modbus_setup();
-extern void modbus_loop();
-extern void modbus_set(word event, word value);
-
 Atm_led exit_door, xray_screen;
 
-/*
- * http://www.analog.com/media/en/technical-documentation/data-sheets/ADuM1200_1201.pdf
- * http://www.aimtec.com/site/Aimtec/files/Datasheet/HighResolution/AM1S-Z.pdf
- */
+char cmd_buffer[80];
+Atm_command cmd;
 
-#ifdef MY_TEST_MODE
+enum {
+    CMD_ALL, CMD_FLOOR, CMD_TOP, CMD_EDGE, CMD_OTHER
+};
+const char cmdlist[] = "all floor top edge other";
 
-#include <RGBdriver.h>
+#include "RGBdriver.h"
 
-Atm_timer test_mode_timer1;
-Atm_timer test_mode_timer2;
+#define RGB(r, g, b) Driver.SetColor(b, g, r)
 extern RGBdriver Driver;
-#endif
+
+uint8_t values[9][3] = {
+        {255, 0, 0},
+        {255, 0, 0},
+        {255, 0, 0},
+        {255, 0, 0},
+        {255, 0, 0},
+        {255, 0, 0},
+        {255, 0, 0},
+        {255, 0, 0},
+        {255, 0, 0},
+};
+
+void set_value(int i, uint8_t r, uint8_t g, uint8_t b) {
+    values[i][0] = r;
+    values[i][1] = g;
+    values[i][2] = b;
+}
+
+void cmd_callback(int idx, int v, int up) {
+    int newRGB[3] = {atoi(cmd.arg(1)), atoi(cmd.arg(2)), atoi(cmd.arg(3))};
+
+    switch (v) {
+        case CMD_ALL:
+            for (int i = 0; i < 9; i++)
+                set_value(i, atoi(cmd.arg(1)), atoi(cmd.arg(2)), atoi(cmd.arg(3)));
+            break;
+        case CMD_EDGE:
+            set_value(6-1, atoi(cmd.arg(1)), atoi(cmd.arg(2)), atoi(cmd.arg(3)));
+            set_value(7-1, atoi(cmd.arg(1)), atoi(cmd.arg(2)), atoi(cmd.arg(3)));
+            break;
+        case CMD_FLOOR:
+            set_value(1-1, atoi(cmd.arg(1)), atoi(cmd.arg(2)), atoi(cmd.arg(3)));
+            set_value(2-1, atoi(cmd.arg(1)), atoi(cmd.arg(2)), atoi(cmd.arg(3)));
+            break;
+        case CMD_TOP:
+            set_value(3-1, atoi(cmd.arg(1)), atoi(cmd.arg(2)), atoi(cmd.arg(3)));
+            set_value(8-1, atoi(cmd.arg(1)), atoi(cmd.arg(2)), atoi(cmd.arg(3)));
+            break;
+        case CMD_OTHER:
+            set_value(4-1, atoi(cmd.arg(1)), atoi(cmd.arg(2)), atoi(cmd.arg(3)));
+            set_value(5-1, atoi(cmd.arg(1)), atoi(cmd.arg(2)), atoi(cmd.arg(3)));
+            set_value(9-1, atoi(cmd.arg(1)), atoi(cmd.arg(2)), atoi(cmd.arg(3)));
+            break;
+    }
+
+    Driver.begin(); // begin
+    for (int i = 0; i < 9; ++i) {
+        RGB(values[i][0], values[i][1], values[i][2]);
+    }
+    Driver.end();
+}
 
 void setup() {
-    Serial.begin(115200);
-    modbus_setup();
+    Serial.begin(9600);
+    cmd.begin(Serial, cmd_buffer, sizeof(cmd_buffer))
+            .list(cmdlist)
+            .onCommand(cmd_callback);
+
     atm_lights.begin();
 
     exit_door.begin(10, true);
     xray_screen.begin(11, true);
-
-#ifdef MY_TEST_MODE
-    exit_door.blink(5000, 5000).start();
-    xray_screen.blink(15000, 5000).start();
-
-    test_mode_timer1.begin(1000, 999)
-            .onTimer([](int idx, int v, int up) {
-                byte icolor = 120;
-                switch (v % 3) {
-                    case 0:
-                        Serial.println("RED");
-                        Driver.begin();
-                        Driver.SetColor(icolor, 0, 0);
-                        Driver.SetColor(icolor, 0, 0);
-                        Driver.SetColor(icolor, 0, 0);
-                        Driver.SetColor(icolor, 0, 0);
-                        Driver.SetColor(icolor, 0, 0);
-
-                        Driver.SetColor(icolor, 0, 0);
-                        Driver.SetColor(icolor, 0, 0);
-                        Driver.SetColor(icolor, 0, 0);
-                        Driver.SetColor(icolor, 0, 0);
-                        Driver.SetColor(icolor, 0, 0);
-                        Driver.end();
-                        break;
-                    case 1:
-                        Serial.println("GREEN");
-                        Driver.begin();
-                        Driver.SetColor(0, icolor, 0);
-                        Driver.SetColor(0, icolor, 0);
-                        Driver.SetColor(0, icolor, 0);
-                        Driver.SetColor(0, icolor, 0);
-                        Driver.SetColor(0, icolor, 0);
-
-                        Driver.SetColor(0, icolor, 0);
-                        Driver.SetColor(0, icolor, 0);
-                        Driver.SetColor(0, icolor, 0);
-                        Driver.SetColor(0, icolor, 0);
-                        Driver.SetColor(0, icolor, 0);
-                        Driver.end();
-                        break;
-                    case 2:
-                        Serial.println("BLUE");
-                        Driver.begin();
-                        Driver.SetColor(0, 0, icolor);
-                        Driver.SetColor(0, 0, icolor);
-                        Driver.SetColor(0, 0, icolor);
-                        Driver.SetColor(0, 0, icolor);
-                        Driver.SetColor(0, 0, icolor);
-
-                        Driver.SetColor(0, 0, icolor);
-                        Driver.SetColor(0, 0, icolor);
-                        Driver.SetColor(0, 0, icolor);
-                        Driver.SetColor(0, 0, icolor);
-                        Driver.SetColor(0, 0, icolor);
-                        Driver.end();
-                        break;
-                    default:
-                        break;
-                }
-            })
-            .onFinish(test_mode_timer2, test_mode_timer1.EVT_START)
-            .start();
-
-    test_mode_timer2.begin(1)
-            .onFinish(test_mode_timer1, test_mode_timer1.EVT_START);
-#endif
 }
 
 void loop() {
     automaton.run();
-    modbus_loop();
 }

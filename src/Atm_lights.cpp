@@ -47,7 +47,7 @@ Atm_lights &Atm_lights::begin() {
     pinMode(LED_GND, OUTPUT);
     digitalWrite(LED_GND, LOW);
 
-    trace(Serial);
+//    trace(Serial);
     return *this;
 }
 
