@@ -1,4 +1,5 @@
 #include "Atm_lights.h"
+extern Atm_led exit_door, xray_screen, lapa_door;
 
 #include <Modbus.h>
 
@@ -53,46 +54,51 @@ ModbusIP mb;
 
 // Action handler. Add all your actions mapped by action_id in rs485_node of Lua script
 void process_actions() {
-	if (mb.Hreg(ACTIONS) == 0)
-		return;
+    if (mb.Hreg(ACTIONS) == 0)
+        return;
 
-	switch (mb.Hreg(ACTIONS)) {
-		case 1 : // Put here code for Go_dim
-			Serial.println("[Go_dim] action fired");
-			digitalWrite(LED_BUILTIN, HIGH);
-			atm_lights.dim();
-			break;
-		case 2 : // Put here code for Go_normal
-			Serial.println("[Go_normal] action fired");
-			digitalWrite(LED_BUILTIN, LOW);
-			atm_lights.normal();
-			break;
-		case 3 : // Put here code for Go_alarms
-			Serial.println("[Go_alarms] action fired");
-			digitalWrite(LED_BUILTIN, LOW);
-			atm_lights.dim();
-			break;
-		case 4 : // Put here code for Go_off
-			Serial.println("[Go_off] action fired");
-			digitalWrite(LED_BUILTIN, LOW);
-			atm_lights.off();
-			break;
-		case 5 : // Put here code for Go_max
-			Serial.println("[Go_max] action fired");
-			digitalWrite(LED_BUILTIN, LOW);
-			atm_lights.maintenace();
-			break;
-		case 6 : // Put here code for Power_console_connected
-			Serial.println("[Power_console_connected] action fired");
-			digitalWrite(LED_BUILTIN, LOW);
-			atm_lights.power_console_connected();
-			break;
-		default:
-			break;
-	}
-
-	// Signal that action was processed
-	mb.Hreg(ACTIONS, 0);
+    switch (mb.Hreg(ACTIONS)) {
+        case 1 : // Put here code for Full_lights
+            Serial.println("[Full_lights] action fired");
+            atm_lights.maintenace();
+            break;
+        case 2 : // Put here code for No_power
+            Serial.println("[No_power] action fired");
+            atm_lights.dim();
+            break;
+        case 3 : // Put here code for Power_active
+            Serial.println("[Power_active] action fired");
+            atm_lights.normal();
+            break;
+        case 4 : // Put here code for Alarms
+            Serial.println("[Alarms] action fired");
+            atm_lights.alarm();
+            break;
+        case 5 : // Put here code for Lock_door
+            Serial.println("[Lock_door] action fired");
+            exit_door.on();
+            break;
+        case 6 : // Put here code for Unlock_door
+            Serial.println("[Unlock_door] action fired");
+            exit_door.off();
+            break;
+        case 7 : // Put here code for Enable_xray
+            Serial.println("[Enable_xray] action fired");
+            xray_screen.on();
+            break;
+        case 8 : // Put here code for Disable_xray
+            Serial.println("[Disable_xray] action fired");
+            xray_screen.off();
+            break;
+        case 9 : // Put here code for Force_lapa
+            Serial.println("[Force_lapa] action fired");
+            lapa_door.on();
+            break;
+        default:
+            break;
+    }
+    // Signal that action was processed
+    mb.Hreg(ACTIONS, 0);
 }
 
 void modbus_set(word event, word value) {

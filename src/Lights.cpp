@@ -5,7 +5,7 @@ extern void modbus_setup();
 extern void modbus_loop();
 extern void modbus_set(word event, word value);
 
-Atm_led exit_door, xray_screen;
+Atm_led exit_door, xray_screen, lapa_door;
 
 /*
  * http://www.analog.com/media/en/technical-documentation/data-sheets/ADuM1200_1201.pdf
@@ -28,6 +28,7 @@ void setup() {
 
     exit_door.begin(10, true);
     xray_screen.begin(11, true);
+    lapa_door.begin(12, true);
 
 #ifdef MY_TEST_MODE
     exit_door.blink(5000, 5000).start();

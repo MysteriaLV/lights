@@ -83,31 +83,33 @@ void Atm_lights::action(int id) {
             Driver.end();
             return;
         case ENT_DIM:
-            // 245, 152, 66 - Orange
+            // top edge 0 0 255
+            // floor/other 255 0 0
             Driver.begin(); // begin
-            Driver.SetColor(255, 255, 255);
-            Driver.SetColor(255, 255, 255);
-            Driver.SetColor(245, 152, 66);
-            Driver.SetColor(0, 0, 0);
-            Driver.SetColor(245, 152, 66);
-            Driver.SetColor(0, 0, 0);
-            Driver.SetColor(0, 0, 0);
-            Driver.SetColor(245, 152, 66);
-            Driver.SetColor(245, 152, 66);
+            Driver.SetColor(255, 000, 000);  // LED Foor Room2
+            Driver.SetColor(255, 000, 000);  // LED Foor Room1
+            Driver.SetColor(000, 000, 255);  // LED TopLight Room1
+            Driver.SetColor(000, 000, 000);  // Stol-Shema
+            Driver.SetColor(255, 000, 000);  // Bolshie Kolbi (Nad chuzhimi)
+            Driver.SetColor(000, 000, 255);  // Perimeter Led1
+            Driver.SetColor(000, 000, 255);  // Perimeter Led2
+            Driver.SetColor(000, 000, 255);  // LED TopLight Room2
+            Driver.SetColor(255, 000, 000);  // Maneken
             Driver.end();
             return;
         case ENT_DIM_WITH_TABLE:
+            // top edge 0 0 255
+            // floor/other 255 0 0
             Driver.begin(); // begin
-            Driver.SetColor(255, 255, 255);
-            Driver.SetColor(255, 255, 255);
-            Driver.SetColor(245, 152, 66);
-            Driver.SetColor(255, 255, 255);
-            Driver.SetColor(245, 152, 66);
-            Driver.SetColor(0, 0, 0);
-            Driver.SetColor(0, 0, 0);
-            Driver.SetColor(245, 152, 66);
-            Driver.SetColor(245, 152, 66);
-            Driver.end();
+            Driver.SetColor(255, 000, 000);  // LED Foor Room2
+            Driver.SetColor(255, 000, 000);  // LED Foor Room1
+            Driver.SetColor(000, 000, 255);  // LED TopLight Room1
+            Driver.SetColor(200, 100, 050);  // Stol-Shema
+            Driver.SetColor(255, 000, 000);  // Bolshie Kolbi (Nad chuzhimi)
+            Driver.SetColor(000, 000, 255);  // Perimeter Led1
+            Driver.SetColor(000, 000, 255);  // Perimeter Led2
+            Driver.SetColor(000, 000, 255);  // LED TopLight Room2
+            Driver.SetColor(255, 000, 000);  // Maneken
             Driver.end();
             return;
         case ENT_ALARM:
@@ -119,25 +121,34 @@ void Atm_lights::action(int id) {
         case ENT_FLICKERING:
             return;
         case ENT_NORMAL:
+            /*  other 255 255 255
+                top 70 0 184
+                edge 105 255 177
+                floor 0 0 255
+             */
             Driver.begin(); // begin
-            Driver.SetColor(9, 255, 255);
-            Driver.SetColor(9, 255, 255);
-            Driver.SetColor(9, 255, 255);
-            Driver.SetColor(9, 255, 255);
-            Driver.SetColor(9, 255, 255);
-            Driver.SetColor(9, 255, 255);
-            Driver.SetColor(9, 255, 255);
+            Driver.SetColor(000, 000, 255);  // LED Foor Room2
+            Driver.SetColor(000, 000, 255);  // LED Foor Room1
+            Driver.SetColor(070, 000, 184);  // LED TopLight Room1
+            Driver.SetColor(200, 100, 050);  // Stol-Shema
+            Driver.SetColor(255, 255, 255);  // Bolshie Kolbi (Nad chuzhimi)
+            Driver.SetColor(105, 255, 177);  // Perimeter Led1
+            Driver.SetColor(105, 255, 177);  // Perimeter Led2
+            Driver.SetColor(070, 000, 184);  // LED TopLight Room2
+            Driver.SetColor(255, 255, 255);  // Maneken
             Driver.end();
             return;
         case ENT_MAINTENACE:
             Driver.begin(); // begin
-            Driver.SetColor(255, 255, 255);
-            Driver.SetColor(255, 255, 255);
-            Driver.SetColor(255, 255, 255);
-            Driver.SetColor(255, 255, 255);
-            Driver.SetColor(255, 255, 255);
-            Driver.SetColor(255, 255, 255);
-            Driver.SetColor(255, 255, 255);
+            Driver.SetColor(255, 255, 255);  // LED Foor Room2
+            Driver.SetColor(255, 255, 255);  // LED Foor Room1
+            Driver.SetColor(255, 255, 255);  // LED TopLight Room1
+            Driver.SetColor(255, 255, 255);  // Stol-Shema
+            Driver.SetColor(255, 255, 255);  // Bolshie Kolbi (Nad chuzhimi)
+            Driver.SetColor(255, 255, 255);  // Perimeter Led1
+            Driver.SetColor(255, 255, 255);  // Perimeter Led2
+            Driver.SetColor(255, 255, 255);  // LED TopLight Room2
+            Driver.SetColor(255, 255, 255);  // Maneken
             Driver.end();
             return;
     }
