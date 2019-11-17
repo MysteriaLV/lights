@@ -94,6 +94,10 @@ void process_actions() {
             Serial.println("[Force_lapa] action fired");
             lapa_door.on();
             break;
+        case 10 : // Put here code for Power_console_connected
+            Serial.println("[Power_console_connected] action fired");
+            atm_lights.power_console_connected();
+            break;
         default:
             break;
     }
