@@ -114,8 +114,15 @@ void Atm_lights::action(int id) {
             return;
         case ENT_ALARM:
             Driver.begin(); // begin
-            RGB(100, 00, 10);
-            RGB(100, 00, 10);
+            RGB(255, 0, 0);  // LED Foor Room2
+            RGB(255, 0, 0);  // LED Foor Room1
+            RGB(255, 0, 0);  // LED TopLight Room1
+            RGB(255, 0, 0);  // Stol-Shema
+            RGB(255, 0, 0);  // Bolshie Kolbi (Nad chuzhimi)
+            RGB(255, 0, 0);  // Perimeter Led1
+            RGB(255, 0, 0);  // Perimeter Led2
+            RGB(255, 0, 0);  // LED TopLight Room2
+            RGB(255, 0, 0);  // Maneken
             Driver.end();
             return;
         case ENT_FLICKERING:
