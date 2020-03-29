@@ -88,7 +88,7 @@ void Atm_lights::action(int id) {
             Driver.begin(); // begin
             RGB(255, 000, 000);  // LED Foor Room2
             RGB(255, 000, 000);  // LED Foor Room1
-            RGB(000, 000, 255);  // LED TopLight Room1
+            RGB(255, 000, 000);  // LED TopLight Room1
             RGB(255, 000, 000);  // Stol-Shema
             RGB(255, 000, 000);  // Bolshie Kolbi (Nad chuzhimi)
             RGB(000, 000, 255);  // Perimeter Led1
@@ -103,7 +103,7 @@ void Atm_lights::action(int id) {
             Driver.begin(); // begin
             RGB(255, 000, 000);  // LED Foor Room2
             RGB(255, 000, 000);  // LED Foor Room1
-            RGB(000, 000, 255);  // LED TopLight Room1
+            RGB(255, 000, 000);  // LED TopLight Room1
             RGB(200, 100, 050);  // Stol-Shema
             RGB(255, 000, 000);  // Bolshie Kolbi (Nad chuzhimi)
             RGB(000, 000, 255);  // Perimeter Led1
@@ -136,7 +136,7 @@ void Atm_lights::action(int id) {
             Driver.begin(); // begin
             RGB(000, 000, 255);  // LED Foor Room2
             RGB(000, 000, 255);  // LED Foor Room1
-            RGB(070, 000, 184);  // LED TopLight Room1
+            RGB(120, 050, 234);  // LED TopLight Room1
             RGB(200, 100, 050);  // Stol-Shema
             RGB(255, 255, 255);  // Bolshie Kolbi (Nad chuzhimi)
             RGB(105, 255, 177);  // Perimeter Led1
