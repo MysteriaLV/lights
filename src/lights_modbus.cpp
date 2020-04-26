@@ -98,6 +98,10 @@ void process_actions() {
             Serial.println("[Power_console_connected] action fired");
             atm_lights.power_console_connected();
             break;
+        case 11 : // Put here code for Lab_light_on
+            Serial.println("[Lab_light_on] action fired");
+            atm_lights.laboratory();
+            break;
         default:
             break;
     }
