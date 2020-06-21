@@ -144,6 +144,7 @@ void Atm_lights::action(int id) {
             RGB(255, 0, 0);  // LED TopLight Room2
             RGB(255, 0, 0);  // Maneken
             Driver.end();
+            return;
         case ENT_MAINTENACE:
             Driver.begin(); // begin
             RGB(255, 255, 255);  // LED Foor Room2
