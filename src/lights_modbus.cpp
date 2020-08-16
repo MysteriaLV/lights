@@ -102,6 +102,10 @@ void process_actions() {
             Serial.println("[Lab_light_on] action fired");
             atm_lights.laboratory();
             break;
+        case 12 : // Put here code for Off
+            Serial.println("[Lights_off] action fired");
+            atm_lights.off();
+            break;
         default:
             break;
     }
